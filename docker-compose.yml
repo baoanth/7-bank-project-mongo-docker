@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  7-bank-project:
+    container_name: 7-bank-project-api
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile
+    restart: always
+    ports:
+      - "5000:5000"
+    networks:
+      - 7-bank-project
+  7-bank-project-web:
+    container_name: 7-bank-project-web
+    build:
+      context: ./solution
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - 7-bank-project
+  mongo:
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: 7-bank-project
+    ports:
+      - "27019:27017"
+    networks:
+      - 7-bank-project
+networks:
+  7-bank-project:
